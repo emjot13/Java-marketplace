@@ -5,11 +5,9 @@ import lombok.ToString;
 import products.Product;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
+import java.util.*;
 
+import sellers.Seller;
 
 @Getter
 @Setter
@@ -17,25 +15,50 @@ import java.util.Map.Entry;
 
 
 public class Buyer {
-    private HashMap<Product, List<Double>> desirabilityMap;
-    private String name;
-    public Buyer(String name, HashMap<Product, List<Double>> desirabilityMap){
-        this.name = name;
-        this.desirabilityMap = desirabilityMap;
+    private List<Product> desiredProductsList;
+    private double inflationRate;
+    private HashMap<String, Integer> desirabilityMap = new HashMap<>();
+    private HashMap<String, Double> previousPriceMap = new HashMap<>();
+
+    public Buyer(List<Product> desiredProductsList){
+        this.desiredProductsList = desiredProductsList;
+        initializeDesirabilityMap();
     }
 
-    public void buyProduct(){
-        for (Entry<Product, List<Double>> entry : desirabilityMap.entrySet()){
-            System.out.println(entry.getKey().getName() + "=" + entry.getValue());
+    public void initializeDesirabilityMap(){
+        for (Product product : desiredProductsList){
+            Random random = new Random();
+            desirabilityMap.put(product.getName(), random.nextInt(50));
         }
     }
 
 
-    public static void main(String[] args){
-        Buyer dudek = new Buyer("dudek", new HashMap<>() {{
-            put(new Product(2.89, 50, "perła export"), Arrays.asList(0.0, 0.5, 0.8));}}
-        );
-        dudek.buyProduct();
+    public void buyProduct(List<Seller> availableSellers){
+    List<Product> copy = new ArrayList<>(desiredProductsList);
+     for (Product product : copy){
+         boolean foundProduct = false;
+         String productName = product.getName();
+         for (Seller seller : availableSellers){
+             if (seller.getPriceMap().containsKey(productName)){
+                 if (seller.getProductsQuantity().get(productName) > 0){
+                 foundProduct = true;
+                 if (desirabilityMap.get(productName) > 50) {
+                 seller.getProductsQuantity().put(productName, seller.getProductsQuantity().get(productName) - 1);
+                 desiredProductsList.remove(product);
+                 }
+                 if (previousPriceMap.get(productName) > seller.getPriceMap().get(productName)) {
+                     desirabilityMap.put(productName, Math.max(desirabilityMap.get(productName) + 2, 100));
+                 }else{
+                     desirabilityMap.put(productName, Math.min(desirabilityMap.get(productName) - 2, 100));
+                 }
+
+         }
+     }
+     }
+         if (!foundProduct){
+             desirabilityMap.put(productName, Math.max(5, 100));
+         }
+    }
 
 }
 }

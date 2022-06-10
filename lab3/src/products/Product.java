@@ -10,14 +10,11 @@ import lombok.ToString;
 
 
 public class Product {
-    private double price;
-    private int productID;
     private String name;
-
-    public Product(double price, int productID, String name){
-        this.productID = productID;
+    private double productionCost;
+    public Product(String name, double productionCost){
         this.name = name;
-        this.price = price;
+        this.productionCost = productionCost;
     }
 
 }

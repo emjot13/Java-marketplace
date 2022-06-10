@@ -3,24 +3,44 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import products.Product;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 @Getter
 @Setter
 @ToString
 
 public class Seller {
-    private Product product;
-    private int productsNumber;
-    private double productionCost;
-    private String name;
-    private int id;
+    private List<Product> products;
+    private HashMap<String, Double> priceMap = new HashMap<>();
+    private HashMap<String, Integer> productsQuantity = new HashMap<>();
     private double profitMargin;
-    public Seller(String name, int id, double productionCost, int productsNumber, double profitMargin, Product product) {
-        this.name = name;
-        this.id = id;
-        this.productionCost = productionCost;
-        this.productsNumber = productsNumber;
+    private double inflationRate;
+
+    public Seller(double profitMargin, List<Product> products, int maxNumberOfProduct) {
         this.profitMargin = profitMargin;
-        this.product = product;
+        this.products = products;
+        calculatePriceMap();
+        generateNumberOfProducts(maxNumberOfProduct);
     }
+
+
+    public void calculatePriceMap() {
+        for (Product product : products) {
+            double baseCost = product.getProductionCost();
+            double costBeforeInflation = baseCost + product.getProductionCost() * profitMargin;
+            double finalCost = costBeforeInflation + costBeforeInflation * inflationRate;
+            priceMap.put(product.getName(), finalCost);
+        }
+    }
+
+    public void generateNumberOfProducts(int maxNumberOfProducts) {
+        for (Product product : products){
+            Random random = new Random();
+            productsQuantity.put(product.getName(), random.nextInt(maxNumberOfProducts) + 1);
+        }
+    }
+
+
 }
