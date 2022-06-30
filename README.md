@@ -1,47 +1,32 @@
------|:-----------|
-| 10.06.2022  23:00   |    10      |
+A program that models the following market situation:
 
---- 
-Przekroczenie terminu o **n** zajęć wiąże się z karą:
-- punkty uzyskanie za realizację zadania są dzielone przez **2<sup>n</sup>**.
+- Sellers have a limited number of products per unit of time, 
+	which they offer on the free market at prices that depend on:
+    - the cost of producing the product
+    - inflation (the value of money decreases over time)
+    - margin (how much the seller wants to earn on the product).
+The seller's goal is to make as much profit as possible.
 
---- 
-
-### Napisz program, który ...
- będzie modelował następującą sytuację rynkową:
-
-- **Sprzedawcy** posiadają ograniczoną liczbę produktów w jednostce czasu, 
-	które oferują na wolnym rynku po cenach, które zależą od:
-    - kosztu wytworzenia produktu
-    - inflacji (w czasie spada wartość pieniądza)
-    - marży (ile chce na produkcie zarobić sprzedawca).
-
-    Celem sprzedawcy jest osiągnięcie jak największego zysku.
-
-- **Kupujący** posiadają potrzeby, zasady i pieniądze. 
-    Obserwują oferty produktów na rynku. Ich zachowanie opisują następujące reguły:
-    - chcą kupić określone produkty i śledzą ich ceny ale nie muszą ich kupić natychmiast
-    - mają wiedzę o skali inflacji
-    - ich skłonność do zakupu produktu spada wraz z rosnącą ceną produktu, 
-	niezależnie czy wzrost cen był spowodowany inflacją czy marżą.
+- Buyers have needs, rules and money. 
+    They observe product offers on the market. Their behavior is described by the following rules:
+    - they want to buy certain products and track their prices but do not need to buy them immediately
+    - they have knowledge of the scale of inflation
+    - their willingness to buy a product decreases as the price of the product increases, 
+	regardless of whether the price increase was due to inflation or margin.
     
-- **Bank Centralny** obserwuje wzrost cen produktów oraz obroty na rynku.
-    Ustala bieżący poziom inflacji. Bank stara się utrzymać stałe wpływy podatkowe liczone jako 
-    iloczyn inflacji i obrotów przy danej inflacji.
+- The Central Bank observes the increase in product prices and turnover in the market.
+    It sets the current level of inflation. The bank tries to keep tax revenues constant, calculated as the 
+    the product of inflation and turnover at a given inflation rate.
     
     
-### Wykorzystaj:
-- [**Wzorzec odwiedzający**](https://refactoring.guru/pl/design-patterns/visitor/java/example) do aktualizacji danych o produktach u sprzedawców oraz parametrów kupujących.
-- [**Wzorzec obserwator**](https://refactoring.guru/pl/design-patterns/observer/java/example) do pasywnego obserwowania następujących zmian:
-    - Sprzedawcy i Kupujący obserwują Bank Centralny by dowiedzieć się jaki jest poziom inflacji
-    - Kupujący obserwują oferty Sprzedawców i mogą na nie reagować ale nie muszą
-	- Bank Centralny obserwuje Sprzedawców i Kupujących, by korygować algorytm inflacyjny utrzymujący 
-	stałe wpływy podatkowe.
+ Use:
+- Visitor pattern to update product data at vendors and buyer parameters.
+- Observer pattern to passively observe the following changes:
+    - Sellers and Buyers watch the Central Bank to find out what the inflation rate is.
+    - Buyers observe Sellers' offers and may or may not react to them
+	- The Central Bank watches Sellers and Buyers to adjust the inflationary algorithm that keeps 
+	constant tax revenues.
   
-Zaimplementowana gra turowa powinna po wielu turach stabilizować się na poziomach będących celem poszczególnych grup uczestników.
+The turn-based game implemented should stabilize after many turns at the levels targeted by each group of participants.
 	
-### Uwaga 1
-Projekt powinien również zawierać odpowiednie testy jednostkowe do implementowanej funkcjonalności.
-
-### Uwaga 2
-Dla uproszczenia implementacji można rozważyć implementację opartą na turach.
+NOT FULLY FINISHED
